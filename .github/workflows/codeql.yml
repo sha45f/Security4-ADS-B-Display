@@ -1,4 +1,4 @@
-name: "CodeQL"
+name: "CodeQL without build"
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   analyze:
-    name: Analyze with CodeQL
+    name: Analyze with CodeQL (no build)
     runs-on: windows-latest
 
     permissions:
@@ -31,13 +31,8 @@ jobs:
         with:
           languages: ${{ matrix.language }}
 
-      - name: Set up MSBuild
-        uses: microsoft/setup-msbuild@v1.1
-
-      - name: Manual Build using MSBuild
-        run: |
-          msbuild Security4-ADS-B-Display.sln /p:Configuration=Release /t:Rebuild
-        shell: cmd
+      - name: Skip Build
+        run: echo "No build step for C++Builder project."
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
