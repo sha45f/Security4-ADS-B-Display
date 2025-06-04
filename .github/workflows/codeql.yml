@@ -5,35 +5,39 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  schedule:
-    - cron: '0 0 * * 1'  # 매주 월요일 분석 (선택)
+  workflow_dispatch:
 
 jobs:
   analyze:
     name: Analyze with CodeQL
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     permissions:
-      security-events: write
       actions: read
       contents: read
+      security-events: write
 
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'cpp' ]  # ✅ 사용하는 언어로 변경
+        language: [ 'cpp' ]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v1.1
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      - name: Manual Build using MSBuild
+        run: |
+          msbuild Security4-ADS-B-Display.sln /p:Configuration=Release /t:Rebuild
+        shell: cmd
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
