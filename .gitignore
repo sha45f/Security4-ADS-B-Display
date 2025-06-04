@@ -1,0 +1,44 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+#Google BigQuery
+YourJsonFile.json
+
+#Customs
+/Components/OpenGLv0.5BDS2006/Component/Win32/*
+/Components/OpenGLv0.5BDS2006/Component/Win64/*
+/Components/OpenGLv0.5BDS2006/Component/__history
+/Win64
+AwsConfig.h
+__history
+*.cbproj.local
