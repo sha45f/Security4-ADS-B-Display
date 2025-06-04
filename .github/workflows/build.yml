@@ -1,0 +1,29 @@
+name: SonarQube (no build-wrapper)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  sonar:
+    name: SonarQube Analysis
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=your_project_key
+            -Dsonar.organization=your_org
+            -Dsonar.sources=.
+            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.cfamily.build-wrapper-output=notUsed
