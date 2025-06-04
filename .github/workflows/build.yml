@@ -15,21 +15,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      # ✅ Java 17 설치
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # ✅ SonarScanner 설치
       - name: Install SonarScanner CLI
         run: |
           curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
           unzip sonar-scanner.zip
           echo "$PWD/sonar-scanner-5.0.1.3006-linux/bin" >> $GITHUB_PATH
 
-      # ✅ SonarCloud 실행
       - name: Run SonarScanner CLI
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -40,5 +37,4 @@ jobs:
             -Dsonar.sources=. \
             -Dsonar.exclusions=**/*.dfm,BigQuery/**,GoogleMap/**,Map/**,IFR_*/**,VFR_Map/**,Recorded/**,OpenStreetGoogleConversion/**,Symbols/**,Win64/** \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.cfamily.build-wrapper-output=notUsed
+            -Dsonar.login=$SONAR_TOKEN
